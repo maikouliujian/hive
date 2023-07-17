@@ -34,6 +34,7 @@ import org.apache.hive.hcatalog.data.HCatRecord;
  * Record writer container for tables using static partitioning. See
  * {@link FileOutputFormatContainer} for more information
  */
+//todo 静态分区
 class StaticPartitionFileRecordWriterContainer extends FileRecordWriterContainer {
   /**
    * @param baseWriter RecordWriter to contain
@@ -53,8 +54,10 @@ class StaticPartitionFileRecordWriterContainer extends FileRecordWriterContainer
     getBaseRecordWriter().close(reporter);
   }
 
+
   @Override
   protected LocalFileWriter getLocalFileWriter(HCatRecord value) throws IOException, HCatException {
+    //todo 静态分区只有一个writer
     return new LocalFileWriter(getBaseRecordWriter(), objectInspector, serDe, jobInfo);
   }
 }

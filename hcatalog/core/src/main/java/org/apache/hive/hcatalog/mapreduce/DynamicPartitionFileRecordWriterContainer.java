@@ -50,11 +50,12 @@ import org.slf4j.LoggerFactory;
  * Record writer container for tables using dynamic partitioning. See
  * {@link FileOutputFormatContainer} for more information
  */
+//todo 动态分区
 class DynamicPartitionFileRecordWriterContainer extends FileRecordWriterContainer {
   private static final Logger LOG = LoggerFactory.getLogger(DynamicPartitionFileRecordWriterContainer.class);
   private final List<Integer> dynamicPartCols;
   private int maxDynamicPartitions;
-
+  //todo 各分区维护了自己的writer
   private final Map<String, RecordWriter<? super WritableComparable<?>, ? super Writable>> baseDynamicWriters;
   private final Map<String, AbstractSerDe> baseDynamicSerDe;
   private final Map<String, org.apache.hadoop.mapred.OutputCommitter> baseDynamicCommitters;
@@ -143,6 +144,7 @@ class DynamicPartitionFileRecordWriterContainer extends FileRecordWriterContaine
       dynamicPartValues.add(partitionValue == null? HIVE_DEFAULT_PARTITION_VALUE : partitionValue.toString());
     }
 
+
     String dynKey = dynamicPartValues.toString();
     if (!baseDynamicWriters.containsKey(dynKey)) {
       if ((maxDynamicPartitions != -1) && (baseDynamicWriters.size() > maxDynamicPartitions)) {
@@ -216,7 +218,7 @@ class DynamicPartitionFileRecordWriterContainer extends FileRecordWriterContaine
           baseOF.getRecordWriter(parentDir.getFileSystem(currTaskContext.getConfiguration()),
               currTaskContext.getJobConf(), childPath.toString(),
               InternalUtil.createReporter(currTaskContext));
-
+      //todo 动态分区，一个分区一个writer
       baseDynamicWriters.put(dynKey, baseRecordWriter);
       baseDynamicSerDe.put(dynKey, currSerDe);
       baseDynamicCommitters.put(dynKey, baseOutputCommitter);

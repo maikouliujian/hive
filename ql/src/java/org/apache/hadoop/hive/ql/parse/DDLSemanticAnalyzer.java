@@ -1891,7 +1891,7 @@ public class DDLSemanticAnalyzer extends BaseSemanticAnalyzer {
       // ReadEntity as no lock.
       re.noLockNeeded();
       inputs.add(re);
-
+      //todo 静态分区
       if (isFullSpec(tab, partSpec)) {
         // Fully specified partition spec
         Partition part = getPartition(tab, partSpec, true);
@@ -1906,6 +1906,7 @@ public class DDLSemanticAnalyzer extends BaseSemanticAnalyzer {
         }
 
         for (Partition part : getPartitions(tab, partSpec, true)) {
+          //todo 获取所有分区
           outputs.add(new WriteEntity(part, writeType));
         }
       }
