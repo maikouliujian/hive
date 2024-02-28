@@ -63,7 +63,7 @@ public class HiveSequenceFileOutputFormat<K,V> extends SequenceFileOutputFormat<
     FileSystem fs = finalOutPath.getFileSystem(jc);
     final SequenceFile.Writer outStream = Utilities.createSequenceWriter(jc, fs, finalOutPath,
     BytesWritable.class, valueClass, isCompressed, progress);
-
+    //todo 写SequenceFile格式的数据
     return new RecordWriter() {
       @Override
       public void write(Writable r) throws IOException {
